@@ -1,0 +1,84 @@
+.containerHeadEditPrefix {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid grey;
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.containerBottomEditPrefix {
+  display: flex;
+  justify-content: center;
+  height: 65vh;
+  width: 100%;
+}
+
+.EditProfileRight {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rightTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rightTop a {
+  text-decoration: none;
+  color: #777777;
+}
+
+.rightMiddle {
+  height: 75%;
+
+  Form {
+    display: flex;
+    flex-wrap: wrap;
+    height: 95%;
+    justify-content: space-between;
+    gap: 5px;
+
+    .input {
+      width: 49%;
+      gap: 5px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .submitBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-top: 40px;
+    }
+  }
+}
+
+.autoFillContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.rightMiddle .input label {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 850px) {
+  .containerBottomPrefix {
+    flex-direction: column;
+    height: 115vh;
+  }
+
+  .profileLeft {
+    flex: 2;
+    height: 100%;
+  }
+}

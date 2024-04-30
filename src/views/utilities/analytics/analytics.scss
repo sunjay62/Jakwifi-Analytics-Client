@@ -1,0 +1,87 @@
+.containerHeadAnalytics {
+  border-bottom: 2px solid grey;
+  padding-bottom: 25px;
+  width: 100%;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.headerModal {
+  text-align: center;
+  font-weight: 600;
+}
+
+.css-1iyq7zh-MuiDataGrid-columnHeaders {
+  background-color: rgb(242, 242, 242);
+  color: #2c2c2c;
+  font-size: 15px;
+}
+
+.cellAction {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  .viewButtonOperator {
+    padding: 5px 5px;
+    border-radius: 5px;
+    color: rgb(18, 18, 165);
+    background-color: rgba(0, 0, 139, 0.17);
+
+    cursor: pointer;
+
+    .viewIcon {
+      margin-bottom: -6px;
+      margin-top: 1px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 139, 0.267);
+      transition: 0.2s;
+    }
+  }
+
+  .editButtonAnalytic {
+    padding: 5px 5px 0 5px;
+    border-radius: 5px;
+    color: rgb(42, 165, 18);
+    background-color: rgba(0, 139, 12, 0.17);
+
+    cursor: pointer;
+
+    .viewIcon {
+      margin-bottom: -6px;
+      margin-top: 1px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 139, 12, 0.267);
+      transition: 0.2s;
+    }
+  }
+}
+
+.loadingContainer {
+  height: 55vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 850px) {
+  .containerHeadAnalytics {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid grey;
+    margin-bottom: 5x;
+    padding-bottom: 10px;
+    width: 100%;
+
+    h2 {
+      color: #777777;
+    }
+  }
+}

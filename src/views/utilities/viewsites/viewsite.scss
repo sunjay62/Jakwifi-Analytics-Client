@@ -1,0 +1,249 @@
+.containerHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid grey;
+  margin-bottom: 5x;
+  padding-bottom: 10px;
+  width: 100%;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.containerData {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dataPelanggan {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+.dataPelanggan th,
+.dataPelanggan td {
+  padding: 5px;
+}
+
+.dataPelanggan th {
+  width: 25%;
+  text-align: left;
+  background-color: rgb(132, 200, 255);
+  border: 3px solid #ffffff;
+}
+.dataPelanggan td {
+  text-align: left;
+  background-color: rgb(221, 237, 255);
+  border: 3px solid #ffffff;
+}
+
+.containerSelectRange {
+  width: 45%;
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+}
+
+.containerRangeDate {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: end;
+
+  p {
+    margin-bottom: -1px;
+  }
+}
+
+.containerCategory {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: end;
+
+  p {
+    margin-bottom: -1px;
+  }
+
+  .selectCategory {
+    width: 120px;
+  }
+}
+
+.containerTable {
+  border-top: 2px solid grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 20px;
+  height: 14vh;
+
+  .containerDownloads {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .dataDateNew {
+    border-collapse: collapse;
+    width: 50%;
+  }
+
+  .dataDateNew th,
+  .dataDateNew td {
+    padding: 5px;
+  }
+
+  .dataDateNew th {
+    width: 25%;
+    text-align: left;
+    background-color: rgb(132, 200, 255);
+    border: 1px solid #ffffff;
+  }
+  .dataDateNew td {
+    text-align: left;
+    background-color: rgb(221, 237, 255);
+    border: 1px solid #ffffff;
+  }
+}
+
+.dataDateNew {
+  table {
+    width: 100%;
+  }
+}
+
+.containerReport {
+  margin-top: 15px;
+}
+
+.containerTableHead {
+  background-color: #e1e1e1;
+
+  .tableCell {
+    font-weight: 600;
+  }
+}
+
+.containerList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h3 {
+  color: rgb(145, 145, 145);
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.containerChart {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.chartTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px 0 15px;
+  width: 100%;
+}
+
+.containerDate {
+  display: flex;
+  flex-direction: column;
+}
+
+.containerFrom {
+  display: flex;
+}
+
+.containerUpdate {
+  margin-bottom: 25px;
+}
+
+.chartBottom {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.echartContainer {
+  padding: 20px 10px 20px 10px;
+  width: 100%;
+}
+
+.containerDonut {
+  width: 49%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f7f6f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: max-content;
+}
+
+.apexcharts-menu-icon {
+  display: none;
+}
+
+.chartBar {
+  padding: 25px;
+  background-color: #f7f6f69c;
+  border-radius: 5px;
+  text-align: center;
+}
+
+// responsive
+
+@media screen and (max-width: 850px) {
+  .containerData {
+    flex-direction: column;
+  }
+
+  .containerSelectRange {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .dataDate,
+  .dataPelanggan {
+    width: 100%;
+  }
+
+  .tableContainer {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+
+  .containerDonut {
+    width: 100%;
+  }
+
+  .containerTable {
+    padding-top: 15px;
+    flex-direction: column;
+    height: max-content;
+
+    .dataDateNew {
+      width: 100%;
+    }
+
+    .containerReport {
+      width: 100%;
+    }
+  }
+
+  .containerRangeDate .ant-picker {
+    overflow-x: auto;
+  }
+}

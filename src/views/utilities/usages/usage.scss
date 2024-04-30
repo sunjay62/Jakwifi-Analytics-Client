@@ -1,0 +1,86 @@
+.containerHeadSites {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid grey;
+  margin-bottom: 5x;
+  padding-bottom: 10px;
+  width: 100%;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
+.dateLeft {
+  display: flex;
+  width: 50%;
+  gap: 5px;
+
+  .selectSites {
+    width: 70%;
+  }
+}
+
+.apexcharts-menu-icon {
+  display: none;
+}
+
+ToastContainer {
+  font-family: 'Poppins';
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px 15px;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  margin-bottom: 20px;
+
+  // .btnMenu {
+  //   cursor: pointer;
+  //   background-color: #fff;
+  // }
+
+  // .css-1fxrh5s-MuiAvatar-root {
+  //   background: #fff;
+  //   font-size: 30px;
+  //   color: #818181;
+  //   transition: all ease-in-out 0.2s;
+
+  //   &:hover {
+  //     background: #e0e0e0;
+  //   }
+  // }
+}
+
+// RESPONSIVE
+
+@media screen and (max-width: 850px) {
+  .dateContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .dateLeft {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .dateRight {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+  }
+}

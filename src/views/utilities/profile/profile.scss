@@ -1,0 +1,120 @@
+.containerHeadProfile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid grey;
+  margin-bottom: 5x;
+  padding-bottom: 10px;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.containerBottomProfile {
+  display: flex;
+  justify-content: center;
+  height: 62vh;
+  width: 100%;
+}
+
+.profileLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .imgContainer {
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.51);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.51);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.51);
+    width: 50%;
+    height: 45%;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    margin: 5px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+.profileRight {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rightTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rightTop button {
+  border: none;
+  background: none;
+  font-weight: 600;
+  font-size: 15px;
+  color: #777777;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 3px;
+  transition: all ease-in-out 0.3s;
+
+  &:hover {
+    color: rgb(94, 177, 255);
+  }
+}
+
+.rightMiddle {
+  height: 75%;
+
+  Form {
+    display: flex;
+    flex-wrap: wrap;
+    height: 95%;
+    justify-content: space-between;
+    gap: 5px;
+
+    .input {
+      width: 49%;
+      gap: 5px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .submitBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 49%;
+    }
+  }
+}
+
+.rightMiddle .input label {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 850px) {
+  .containerBottomProfile {
+    flex-direction: column;
+    height: 115vh;
+  }
+
+  .profileLeft {
+    flex: 2;
+    height: 100%;
+  }
+}

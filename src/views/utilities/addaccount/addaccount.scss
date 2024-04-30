@@ -1,0 +1,45 @@
+.containerHeadCreateAccount {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid grey;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.containerCreateAccount {
+  padding: 0 0 25px 0;
+  height: max-content;
+  width: 100%;
+}
+
+Form {
+  display: flex;
+  flex-wrap: wrap;
+  height: 95%;
+  justify-content: space-between;
+
+  .input {
+    width: 49%;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .submitBtn {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 49%;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .containerCreateAccount {
+    flex-direction: column;
+    height: 115vh;
+  }
+}

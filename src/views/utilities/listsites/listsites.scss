@@ -1,0 +1,76 @@
+.containerHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid grey;
+  padding-bottom: 10px;
+  width: 100%;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.data-grid-container {
+  margin: 25px 0 25px 0;
+}
+
+.headerModal {
+  text-align: center;
+  font-weight: 600;
+}
+
+.css-1iyq7zh-MuiDataGrid-columnHeaders {
+  background-color: rgb(242, 242, 242);
+  color: #2c2c2c;
+  font-size: 15px;
+}
+
+.containerExportImport {
+  width: 100%;
+  padding-top: 15px;
+  display: flex;
+  justify-content: end;
+}
+
+.ant-upload-list-text {
+  display: none;
+}
+
+.cellAction {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  .viewButtonOperator {
+    padding: 5px 5px;
+    border-radius: 5px;
+    color: rgb(18, 18, 165);
+    background-color: rgba(0, 0, 139, 0.17);
+
+    cursor: pointer;
+
+    .viewIcon {
+      margin-bottom: -6px;
+      margin-top: 1px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 139, 0.267);
+      transition: 0.2s;
+    }
+  }
+
+  .deleteButtonOperator {
+    padding: 5px 5px;
+    border-radius: 5px;
+    color: rgb(255, 50, 50);
+    background-color: rgba(255, 50, 50, 0.17);
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 50, 50, 0.267);
+      transition: 0.2s;
+    }
+  }
+}

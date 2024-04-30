@@ -1,0 +1,102 @@
+.containerHeadEditProfile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid grey;
+  margin-bottom: 5x;
+  padding-bottom: 10px;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.containerBottomEditProfile {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  height: max-content;
+  width: 100%;
+}
+
+.EditProfileLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .imgContainer {
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.51);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.51);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.51);
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    margin: 5px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+.EditProfileRight {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rightTop {
+  display: flex;
+  justify-content: end;
+}
+
+.rightMiddle {
+  height: 75%;
+
+  Form {
+    display: flex;
+    flex-wrap: wrap;
+    height: 95%;
+    justify-content: space-between;
+
+    .input {
+      width: 49%;
+      gap: 5px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .submitBtn {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+  }
+}
+
+.rightMiddle .input label {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 850px) {
+  .containerBottomEditProfile {
+    flex-direction: column;
+    height: 115vh;
+  }
+
+  .profileLeft {
+    flex: 2;
+    height: 100%;
+  }
+}
