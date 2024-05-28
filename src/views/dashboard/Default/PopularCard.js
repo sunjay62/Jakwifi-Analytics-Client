@@ -164,7 +164,7 @@ const PopularCard = ({ isLoading }) => {
             </Grid>
           </CardContent>
           <CardActions sx={{ p: 1.25, pt: 0, justifyContent: 'center' }}>
-            <Link to="/jakwifi/allusage" style={{ textDecoration: 'none' }}>
+            <Link to="/jakwifi/allusage/darat" style={{ textDecoration: 'none' }}>
               <Button size="small" disableElevation>
                 View All
                 <ChevronRightOutlinedIcon />

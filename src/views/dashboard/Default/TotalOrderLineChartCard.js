@@ -183,7 +183,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
               <Grid item>
                 <Grid container justifyContent="space-between">
                   <Grid item>
-                    <Link to="/jakwifi/allusage" style={{ textDecoration: 'none' }}>
+                    <Link to="/jakwifi/allusage/darat" style={{ textDecoration: 'none' }}>
                       <Avatar
                         variant="rounded"
                         sx={{

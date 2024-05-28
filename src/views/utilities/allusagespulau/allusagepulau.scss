@@ -1,0 +1,104 @@
+.btnDropdown {
+  text-decoration: none;
+  background: none;
+  border: none;
+}
+
+.containerHeadSites {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid grey;
+  margin-bottom: 5x;
+  padding-bottom: 10px;
+  width: 100%;
+
+  h2 {
+    color: #777777;
+  }
+}
+
+.dateContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
+.dateLeft {
+  display: flex;
+  width: 50%;
+  gap: 5px;
+
+  .selectSites {
+    width: 70%;
+  }
+}
+
+.apexcharts-menu-icon {
+  display: none;
+}
+
+ToastContainer {
+  font-family: 'Poppins';
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px 15px;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  margin-bottom: 20px;
+}
+
+.css-1iyq7zh-MuiDataGrid-columnHeaders {
+  background-color: rgb(242, 242, 242);
+  color: #2c2c2c;
+  font-size: 15px;
+}
+
+.cellAction {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  .viewButtonOperator {
+    padding: 5px 5px;
+    border-radius: 5px;
+    color: rgb(18, 18, 165);
+    background-color: rgba(0, 0, 139, 0.17);
+
+    cursor: pointer;
+
+    .viewIcon {
+      margin-bottom: -6px;
+      margin-top: 1px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 139, 0.267);
+      transition: 0.2s;
+    }
+  }
+
+  .deleteButtonOperator {
+    padding: 5px 5px;
+    border-radius: 5px;
+    color: rgb(255, 50, 50);
+    background-color: rgba(255, 50, 50, 0.17);
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 50, 50, 0.267);
+      transition: 0.2s;
+    }
+  }
+}
+
+.loadingContainer {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

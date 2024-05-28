@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Tooltip } from '@material-ui/core';
 import MainCard from 'ui-component/cards/MainCard';
 import { Grid } from '@mui/material';
-import './allusage.scss';
+import './allusagepulau.scss';
 import { FilePdfOutlined, FileExcelOutlined, FileZipOutlined } from '@ant-design/icons';
 import { gridSpacing } from 'store/constant';
 import { Popconfirm } from 'antd';
@@ -21,7 +21,7 @@ import { Image as PDFImage } from '@react-pdf/renderer';
 import XLSX from 'xlsx';
 dayjs.extend(customParseFormat);
 
-const AllUsage = () => {
+const AllUsagePulau = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,7 +53,7 @@ const AllUsage = () => {
   const downloadPDF = async () => {
     const { month, year } = selectedDate;
     try {
-      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/darat/raw/`);
+      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/pulau/raw/`);
       const responseData = response.data;
 
       const tableData = [
@@ -237,7 +237,7 @@ const AllUsage = () => {
   const downloadExcel = async () => {
     const { month, year } = selectedDate;
     try {
-      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/darat/raw/`);
+      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/pulau/raw/`);
       const responseData = response.data;
 
       // Header and Table data
@@ -316,7 +316,7 @@ const AllUsage = () => {
   const downloadCSV = async () => {
     const { month, year } = selectedDate;
     try {
-      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/darat/raw/`);
+      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/pulau/raw/`);
       const responseData = response.data;
 
       // Create the CSV content
@@ -430,7 +430,7 @@ const AllUsage = () => {
   const fetchData = async (selectedDate) => {
     const { year, month } = selectedDate;
     try {
-      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/darat/raw/`, {
+      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/pulau/raw/`, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -472,7 +472,7 @@ const AllUsage = () => {
 
     try {
       setLoading(true); // Set loading to true before fetching new data
-      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/darat/raw/`, {
+      const response = await axiosNgasal.get(`/ngasal/report/monthly/${month}/${year}/pulau/raw/`, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -575,7 +575,7 @@ const AllUsage = () => {
       <MainCard>
         <Grid item xs={12} className="gridButton">
           <div className="containerHeadSites">
-            <h2>JakWifi All Usage Darat</h2>
+            <h2>JakWifi All Usage Pulau</h2>
           </div>
         </Grid>
         <div className="dateContainer">
@@ -632,4 +632,4 @@ const AllUsage = () => {
   );
 };
 
-export default AllUsage;
+export default AllUsagePulau;

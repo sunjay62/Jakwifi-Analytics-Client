@@ -37,10 +37,17 @@ const utilities = {
           breadcrumbs: true
         },
         {
-          id: 'util-allsites',
-          title: 'All Usage',
+          id: 'util-allsites-darat',
+          title: 'All Usage Darat',
           type: 'item',
-          url: '/jakwifi/allusage',
+          url: '/jakwifi/allusage/darat',
+          breadcrumbs: true
+        },
+        {
+          id: 'util-allsites-pulau',
+          title: 'All Usage Pulau',
+          type: 'item',
+          url: '/jakwifi/allusage/pulau',
           breadcrumbs: true
         },
         {
