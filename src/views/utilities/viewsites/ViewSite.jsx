@@ -78,7 +78,7 @@ const ViewSite = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Validation check for all required parameters
+      // Validation check for all required parameter
       if (!category || !endDate || !ip || !startDate) {
         // Only show error toast if category is empty but other fields are filled
         if (!category && endDate && ip && startDate) {
