@@ -78,8 +78,12 @@ const ViewSite = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!category) {
-        toast.error('Please Input Category!');
+      // Validation check for all required parameters
+      if (!category || !endDate || !ip || !startDate) {
+        // Only show error toast if category is empty but other fields are filled
+        if (!category && endDate && ip && startDate) {
+          console.log('Data null');
+        }
         return;
       }
 
@@ -95,6 +99,21 @@ const ViewSite = () => {
         // console.log('Request Body:', requestBody);
         const response = await axiosPrivate.post(apiUrl, requestBody);
         const dataArray = response.data.data;
+
+        // Check if data array is empty despite 200 status
+        if (dataArray.length === 0) {
+          toast.warn('Data not found!', {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true
+          });
+          setLoading(false);
+          return;
+        }
+
         setLastUpdate(response.data.last_update);
         // console.log(dataArray);
 
@@ -193,19 +212,6 @@ const ViewSite = () => {
         const extractedApplications = topApplications.map((item) => item.application);
         const extractedTotals = topApplications.map((item) => item.total);
 
-        // console.log(extractedTotals);
-
-        // let sum = 0;
-
-        // for (let i = 0; i < extractedTotals.length; i++) {
-        //   // console.log(`${i}: ${extractedTotals[i]}`);
-        //   sum += extractedTotals[i];
-        // }
-
-        // console.log('Sum:', formatBytes(sum));
-
-        // Update state for optionUsage and SeriesUsage
-
         setBwUsageEchart((prevOptions) => ({
           ...prevOptions,
           legend: {
@@ -223,15 +229,9 @@ const ViewSite = () => {
           ]
         }));
 
-        // Log top 10 applications and their counts
-        // console.log('Top 10 Applications:', extractedApplications);
-        // console.log('Total Counts for Top 10 Applications:', extractedTotals);
-
         // Add this console log to extract dst_country values
         const extractedDstCountries = processedDataArray.map((item) => item.dst_country);
-        // console.log('Extracted Destination Countries:', extractedDstCountries);
         const extractedProtocol = processedDataArray.map((item) => item.protocol_service_name);
-        // console.log('Extracted Protocol:', extractedProtocol);
 
         // Map values to corresponding names
         const nameMappings = {
@@ -255,11 +255,9 @@ const ViewSite = () => {
         // Process and display the results
         const combinedResults = Object.entries(valueTotals).map(([value, count]) => ({
           value,
-          name: value === 'ID' ? 'IIX' : value === 'SG' ? 'IIX' : value, // Update this line
+          name: value === 'ID' ? 'IIX' : value === 'SG' ? 'IIX' : value,
           count
         }));
-
-        // console.log(combinedResults);
 
         const extractedNames = combinedResults.map((result) => result.name);
         const extractedCounts = combinedResults.map((result) => result.count);
@@ -287,7 +285,6 @@ const ViewSite = () => {
           'TCP/80(http)': 'TCP/80',
           'UDP/443(https)': 'UDP/443',
           'TCP/443(https)': 'TCP/443'
-          // Add more mappings as needed
         };
 
         // Create an object to store combined protocol data
@@ -295,12 +292,9 @@ const ViewSite = () => {
 
         // Loop through extractedProtocol array
         extractedProtocol.forEach((protocol) => {
-          // Check if the protocol exists in the combinedProtocolData object
           if (combinedProtocolData[protocol]) {
-            // If it exists, increment the count
             combinedProtocolData[protocol].count += 1;
           } else {
-            // If it doesn't exist, add it with a count of 1
             combinedProtocolData[protocol] = {
               protocol,
               name: protocolNameMappings[protocol] || protocol,
@@ -322,13 +316,9 @@ const ViewSite = () => {
         const legendData = top10Results.map((result) => result.protocol);
         const seriesData = top10Results.map((result) => result.count);
 
-        // console.log(seriesData);
-
         const legendFormattedData = legendData.map((name) => {
           return `${name}`;
         });
-
-        // console.log(legendFormattedData);
 
         setServiceEchart((prevOptions) => ({
           ...prevOptions,
@@ -346,8 +336,6 @@ const ViewSite = () => {
             }
           ]
         }));
-
-        // console.log('Combined Protocol Results:', combinedProtocolResults);
 
         // After fetching the data and before processing it
         const applicationCounts = {};
@@ -395,7 +383,16 @@ const ViewSite = () => {
 
         setLoading(false);
       } catch (error) {
+        setLoading(true);
         console.error('Error fetching data:', error);
+        toast.error('Error fetching data', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true
+        });
       } finally {
         setLoading(false);
       }
