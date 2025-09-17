@@ -57,39 +57,58 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(true); // Show the loader when submitting the form
-      const response = await axiosPrivate.post('admin/login', {
-        email,
-        password,
-        remember
-      });
+      setLoading(true);
 
-      // console.log(response.data);
+      // Use regular axios for login to avoid interceptor interference
+      const response = await axiosPrivate.post(
+        `${process.env.REACT_APP_API_URL || 'http://dashflow.tachyon.net.id/api/beta'}/admin/login`,
+        {
+          email,
+          password,
+          remember
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
 
       if (response.data && response.data.access_token) {
         const setTokens = (access_token, refresh_token) => {
-          // Set access and refresh token in local storage
           localStorage.setItem('access_token', access_token);
           localStorage.setItem('refresh_token', refresh_token);
         };
-        // Set user data in the local state
         setUser(response.data);
         setTokens(response.data.access_token, response.data.refresh_token);
-
-        // Navigate to the /home page after successful login
         navigate('/home');
+        toast.success('Login Successfully.');
       } else {
         console.log('Invalid response data:', response.data);
         toast.error('Invalid email or password.');
       }
-      setLoading(false); // Hide the loader after the API call is completed
+      setLoading(false);
     } catch (error) {
-      if (error.response === 401) {
-        alert('Invalid email or password');
-        toast.error('Invalid email or password.');
+      console.error('Login error:', error);
+
+      if (error.response) {
+        const status = error.response.status;
+        console.log('Login failed with status:', status);
+
+        if (status === 401 || status === 422) {
+          toast.error('Invalid email or password.');
+        } else if (status >= 500) {
+          toast.error('Server error. Please try again later.');
+        } else {
+          toast.error('Login failed. Please try again.');
+        }
+      } else if (error.request) {
+        toast.error('Network error. Please check your connection.');
+      } else {
+        toast.error('An unexpected error occurred.');
       }
-      console.error(error);
-      setLoading(false); // Hide the loader if there was an error during the login process
+
+      setLoading(false);
     }
   };
 
