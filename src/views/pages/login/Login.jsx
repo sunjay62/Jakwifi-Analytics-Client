@@ -60,19 +60,11 @@ export default function Login() {
       setLoading(true);
 
       // Use regular axios for login to avoid interceptor interference
-      const response = await axiosPrivate.post(
-        `${process.env.REACT_APP_API_URL || 'http://dashflow.tachyon.net.id/api/beta'}/admin/login`,
-        {
-          email,
-          password,
-          remember
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const response = await axiosPrivate.post('admin/login', {
+        email,
+        password,
+        remember
+      });
 
       if (response.data && response.data.access_token) {
         const setTokens = (access_token, refresh_token) => {
