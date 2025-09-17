@@ -86,8 +86,8 @@ const SitesDev = () => {
     const startData = selectedRange[0];
     const endData = selectedRange[1];
     const requestData = {
-      start_data: startData,
-      end_data: endData,
+      start_data: `${startData}/01`,
+      end_data: `${endData}/01`,
       site_id: selectedSite
     };
 
@@ -268,8 +268,8 @@ const SitesDev = () => {
     const startData = selectedRange[0];
     const endData = selectedRange[1];
     const requestData = {
-      start_data: startData,
-      end_data: endData,
+      start_data: `${startData}/01`,
+      end_data: `${endData}/01`,
       site_id: selectedSite
     };
 
@@ -323,8 +323,8 @@ const SitesDev = () => {
     const startData = selectedRange[0];
     const endData = selectedRange[1];
     const requestData = {
-      start_data: startData,
-      end_data: endData,
+      start_data: `${startData}/01`,
+      end_data: `${endData}/01`,
       site_id: selectedSite
     };
 
@@ -506,15 +506,30 @@ const SitesDev = () => {
     const endData = selectedRange[1]; // Changed from selectedRange[0] to selectedRange[1]
 
     const requestData = {
-      start_data: startData,
-      end_data: endData,
+      start_data: `${startData}/01`,
+      end_data: `${endData}/01`,
       site_id: selectedSite
     };
 
+    // Wrap the API call with toast.promise for loading indicator
+    const searchPromise = axiosNew.post('/monthly', requestData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
     try {
-      const response = await axiosNew.post('/monthly', requestData, {
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await toast.promise(searchPromise, {
+        pending: 'Loading data...',
+        success: 'Data loaded successfully!',
+        error: {
+          render: ({ data }) => {
+            // Handle different error scenarios
+            if (data?.response?.status === 422) {
+              return 'Please select both site and date range!';
+            }
+            return 'Failed to load data. Please try again.';
+          }
         }
       });
 
@@ -661,7 +676,7 @@ const SitesDev = () => {
             </Space>
           </div>
           <Space size={12} className="dateRight">
-            <RangePicker picker="month" onChange={onChangeRange} format="YYYY/MM/01" className="rangePicker" />
+            <RangePicker picker="month" onChange={onChangeRange} format="YYYY/MM" className="rangePicker" />
           </Space>
         </div>
         <DataDeviceSection dataTraffic={dataTraffic} dataDevice={dataDevice} />

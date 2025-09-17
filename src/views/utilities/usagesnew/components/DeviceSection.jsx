@@ -28,18 +28,33 @@ const DeviceSection = ({ dataDevice, siteName, selectedRange, selectedSite }) =>
       const currentDate = dayjs(monthData.month, 'YYYY/MM/DD');
       const daysInMonth = currentDate.daysInMonth();
 
-      // If it's not the last month in the array, generate points until the start of next month
-      const nextMonth = index < data.length - 1 ? dayjs(data[index + 1].month, 'YYYY/MM/DD') : currentDate.add(1, 'month');
+      // Original logic with adding 1 month (commented out)
+      // const nextMonth = index < data.length - 1 ? dayjs(data[index + 1].month, 'YYYY/MM/DD') : currentDate.add(1, 'month');
 
-      // Generate daily points for current month
-      for (let i = 0; i < daysInMonth; i++) {
-        const pointDate = currentDate.add(i, 'day');
-        // Only add points up to the start of next month
-        if (pointDate.isBefore(nextMonth)) {
-          result.push({
-            x: pointDate.valueOf(),
-            y: monthData.data
-          });
+      // New logic: for last month, only generate until end of that month
+      if (index < data.length - 1) {
+        // Not the last month - generate until next month starts
+        const nextMonth = dayjs(data[index + 1].month, 'YYYY/MM/DD');
+        for (let i = 0; i < daysInMonth; i++) {
+          const pointDate = currentDate.add(i, 'day');
+          if (pointDate.isBefore(nextMonth)) {
+            result.push({
+              x: pointDate.valueOf(),
+              y: monthData.data
+            });
+          }
+        }
+      } else {
+        // Last month - only generate for days within this month
+        for (let i = 0; i < daysInMonth; i++) {
+          const pointDate = currentDate.add(i, 'day');
+          // Double check: make sure the point is still in the same month
+          if (pointDate.month() === currentDate.month()) {
+            result.push({
+              x: pointDate.valueOf(),
+              y: monthData.data
+            });
+          }
         }
       }
     });
