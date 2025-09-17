@@ -11,7 +11,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Logo from '../../../../src/assets/images/logotachyon-old.png';
 import Logo2 from '../../../../src/assets/images/JakWiFi-logo.png';
-import Wallpaper from '../../../../src/assets/images/wallpaper.jpg';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -109,7 +108,8 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: { Wallpaper },
+            backgroundImage:
+              'url(https://images.unsplash.com/photo-1679239108020-aca50acd5f00?q=80&w=2532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
             backgroundSize: 'cover',
