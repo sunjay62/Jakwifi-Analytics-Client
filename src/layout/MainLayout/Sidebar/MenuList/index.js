@@ -8,14 +8,16 @@ import menuItem from 'menu-items';
 // ==============================|| SIDEBAR MENU LIST ||============================== //
 
 const MenuList = () => {
-  const navItems = menuItem.items.map((item) => {
+  const navItems = menuItem.items.map((item, index) => {
+    const key = item.id || `menu-item-${index}`;
+
     switch (item.type) {
       case 'group':
-        return <NavGroup key={item.id} item={item} />;
+        return <NavGroup key={key} item={item} />;
       default:
         return (
-          <Typography key={item.id} variant="h6" color="error" align="center">
-            {/* Menu Items Error */}
+          <Typography key={key} variant="h6" color="error" align="center">
+            Menu Items Error
           </Typography>
         );
     }
