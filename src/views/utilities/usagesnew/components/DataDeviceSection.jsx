@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Chip } from '@mui/material';
 import SubCard from 'ui-component/cards/SubCard';
 import '../usage.scss';
 import ReactApexChart from 'react-apexcharts';
 import dayjs from 'dayjs';
 
-const DataDeviceSection = ({ dataTraffic, dataDevice }) => {
+const DataDeviceSection = ({ dataTraffic, dataDevice, dataMonthly }) => {
+  console.log('DataDeviceSection - dataMonthly:', dataMonthly);
+
   // Function to generate daily data points for multiple months
   const generateDailyData = (data) => {
     if (data.length === 0) return [];
@@ -47,6 +49,19 @@ const DataDeviceSection = ({ dataTraffic, dataDevice }) => {
     });
 
     return result;
+  };
+
+  // Function to format usage display
+  const formatUsage = (usageGb) => {
+    if (usageGb >= 1000) {
+      return `${(usageGb / 1000).toFixed(2)} TB`;
+    }
+    return `${usageGb.toFixed(2)} GB`;
+  };
+
+  // Function to format month display
+  const formatMonth = (monthStr) => {
+    return dayjs(monthStr, 'YYYY/MM').format('MMMM YYYY');
   };
 
   const [chartOptions, setChartOptions] = useState({
@@ -151,6 +166,117 @@ const DataDeviceSection = ({ dataTraffic, dataDevice }) => {
     <Grid item xs={12}>
       <SubCard title="BW Usage & Devices Connected">
         <ReactApexChart options={chartOptions} series={chartOptions.series} type="area" height={350} />
+
+        {/* Summary Statistics */}
+        {dataMonthly && (
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+              Summary Statistics
+            </Typography>
+
+            {/* Total Statistics Cards */}
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={12} sm={6}>
+                <Paper elevation={2} sx={{ p: 2, textAlign: 'center', backgroundColor: '#f8f9fa' }}>
+                  <Typography variant="h4" color="primary" sx={{ fontWeight: 'bold' }}>
+                    {dataMonthly.total_device?.toLocaleString() || 0}
+                  </Typography>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    Total Devices
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Paper elevation={2} sx={{ p: 2, textAlign: 'center', backgroundColor: '#f8f9fa' }}>
+                  <Typography variant="h4" color="secondary" sx={{ fontWeight: 'bold' }}>
+                    {formatUsage(dataMonthly.total_usage_gb || 0)}
+                  </Typography>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    Total Usage
+                  </Typography>
+                </Paper>
+              </Grid>
+            </Grid>
+
+            {/* Monthly Data Table */}
+            <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
+              Monthly Breakdown
+            </Typography>
+
+            <TableContainer component={Paper} elevation={2}>
+              <Table sx={{ minWidth: 400 }} aria-label="monthly data table">
+                <TableHead>
+                  <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                    <TableCell sx={{ fontWeight: 'bold', fontSize: '1rem' }}>Month</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                      Devices
+                    </TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                      Usage
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                      Status
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {dataMonthly.data_per_month?.map((monthData, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                        '&:hover': { backgroundColor: '#fafafa' }
+                      }}
+                    >
+                      <TableCell component="th" scope="row" sx={{ fontSize: '0.95rem' }}>
+                        {formatMonth(monthData.month)}
+                      </TableCell>
+                      <TableCell align="right" sx={{ fontSize: '0.95rem', fontWeight: '500' }}>
+                        {monthData.device?.toLocaleString() || 0}
+                      </TableCell>
+                      <TableCell align="right" sx={{ fontSize: '0.95rem', fontWeight: '500' }}>
+                        {formatUsage(monthData.usage_gb || 0)}
+                      </TableCell>
+                      <TableCell align="center">
+                        <Chip
+                          label={index === dataMonthly.data_per_month.length - 1 ? 'Current' : 'Completed'}
+                          color={index === dataMonthly.data_per_month.length - 1 ? 'primary' : 'success'}
+                          size="small"
+                          variant="outlined"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+
+                  {/* Total Row */}
+                  <TableRow sx={{ backgroundColor: '#f0f0f0', fontWeight: 'bold' }}>
+                    <TableCell component="th" scope="row" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                      Total
+                    </TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                      {dataMonthly.total_device?.toLocaleString() || 0}
+                    </TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                      {formatUsage(dataMonthly.total_usage_gb || 0)}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Chip label="Summary" color="info" size="small" variant="filled" />
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {/* Site Info */}
+            {dataMonthly.site_info && (
+              <Box sx={{ mt: 2, p: 2, backgroundColor: '#f8f9fa', borderRadius: 1 }}>
+                <Typography variant="subtitle2" color="textSecondary">
+                  Site: <strong>{dataMonthly.site_info.name}</strong> (ID: {dataMonthly.site_info.id})
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        )}
       </SubCard>
     </Grid>
   );

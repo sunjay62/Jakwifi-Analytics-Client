@@ -25,6 +25,7 @@ const SitesDev = () => {
   const [selectedRange, setSelectedRange] = useState([]);
   const [sites, setSites] = useState([]);
   const [dataTraffic, setDataTraffic] = useState([]);
+  const [dataMonthly, setDataMonthly] = useState([]);
   const [dataDevice, setDataDevice] = useState([]);
   const [siteName, setSiteName] = useState('');
   const [sitePublicIP, setSitePublicIP] = useState('');
@@ -511,6 +512,8 @@ const SitesDev = () => {
       site_id: selectedSite
     };
 
+    console.log(requestData);
+
     // Wrap the API call with toast.promise for loading indicator
     const searchPromise = axiosNew.post('/monthly', requestData, {
       headers: {
@@ -534,6 +537,19 @@ const SitesDev = () => {
       });
 
       const responseData = response.data;
+      console.log(responseData);
+
+      // Set complete monthly data including data_per_month, total_device, and total_usage_gb
+      setDataMonthly({
+        data_per_month: responseData.data_per_month || [],
+        total_device: responseData.total_device || 0,
+        total_usage_gb: responseData.total_usage_gb || 0,
+        site_info: {
+          id: responseData.id || '',
+          name: responseData.name || ''
+        }
+      });
+
       // setTableData(responseData.data);
 
       // Update dataTraffic
@@ -586,60 +602,60 @@ const SitesDev = () => {
 
   // API UNTUK MELAKUKAN SEARCH DATA DEFAULT
 
-  const handleSearchOnLoad = async () => {
-    const requestData = {
-      start_data: '2025/08/01',
-      end_data: '2025/09/01',
-      site_id: 'TCF-11083'
-    };
+  // const handleSearchOnLoad = async () => {
+  //   const requestData = {
+  //     start_data: '2025/08/01',
+  //     end_data: '2025/09/01',
+  //     site_id: 'TCF-11083'
+  //   };
 
-    // console.log(requestData);
+  //   // console.log(requestData);
 
-    try {
-      const response = await axiosNew.post('/monthly', requestData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+  //   try {
+  //     const response = await axiosNew.post('/monthly', requestData, {
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
 
-      const responseData = response.data;
-      // console.log(response);
-      // setTableData(responseData.data);
+  //     const responseData = response.data;
+  //     // console.log(response);
+  //     // setTableData(responseData.data);
 
-      // Update dataTraffic
-      const trafficData = responseData.data.find((item) => item.name === 'BW usage per GB');
-      const updatedDataTraffic = trafficData.data.map((item) => ({
-        month: item.month,
-        data: item.data
-        // totalDevices: item.totalDevices
-      }));
+  //     // Update dataTraffic
+  //     const trafficData = responseData.data.find((item) => item.name === 'BW usage per GB');
+  //     const updatedDataTraffic = trafficData.data.map((item) => ({
+  //       month: item.month,
+  //       data: item.data
+  //       // totalDevices: item.totalDevices
+  //     }));
 
-      // Update dataDevice
-      const deviceData = responseData.data.find((item) => item.name === 'device');
-      const updatedDataDevice = deviceData.data.map((item) => ({
-        month: item.month,
-        data: item.data
-        // totalDevices: item.totalDevices
-      }));
+  //     // Update dataDevice
+  //     const deviceData = responseData.data.find((item) => item.name === 'device');
+  //     const updatedDataDevice = deviceData.data.map((item) => ({
+  //       month: item.month,
+  //       data: item.data
+  //       // totalDevices: item.totalDevices
+  //     }));
 
-      setDataTraffic(updatedDataTraffic);
-      setDataDevice(updatedDataDevice);
-      // console.log(updatedDataTraffic);
-      // console.log(updatedDataDevice);
+  //     setDataTraffic(updatedDataTraffic);
+  //     setDataDevice(updatedDataDevice);
+  //     // console.log(updatedDataTraffic);
+  //     // console.log(updatedDataDevice);
 
-      // Update site name and public IP based on selected site
-      const selectedOption = sites.find((site) => site.value === selectedSite);
-      if (selectedOption) {
-        setSiteName(selectedOption.label);
-        setSitePublicIP(selectedOption.publicIP);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     // Update site name and public IP based on selected site
+  //     const selectedOption = sites.find((site) => site.value === selectedSite);
+  //     if (selectedOption) {
+  //       setSiteName(selectedOption.label);
+  //       setSitePublicIP(selectedOption.publicIP);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
-    handleSearchOnLoad();
+    // handleSearchOnLoad(); // disable auto search on load biar tidak terllau banyak hit api
   }, []);
 
   // API UNTUK MELAKUKAN SEARCH DATA DEFAULT
@@ -679,9 +695,23 @@ const SitesDev = () => {
             <RangePicker picker="month" onChange={onChangeRange} format="YYYY/MM" className="rangePicker" />
           </Space>
         </div>
-        <DataDeviceSection dataTraffic={dataTraffic} dataDevice={dataDevice} />
-        <DataSection dataTraffic={dataTraffic} siteName={siteName} selectedRange={selectedRange} selectedSite={selectedSite} />
-        <DeviceSection dataDevice={dataDevice} siteName={siteName} selectedRange={selectedRange} selectedSite={selectedSite} />
+        <DataDeviceSection dataTraffic={dataTraffic} dataDevice={dataDevice} dataMonthly={dataMonthly} />
+
+        <DataSection
+          dataTraffic={dataTraffic}
+          siteName={siteName}
+          selectedRange={selectedRange}
+          selectedSite={selectedSite}
+          dataMonthly={dataMonthly}
+        />
+
+        <DeviceSection
+          dataDevice={dataDevice}
+          siteName={siteName}
+          selectedRange={selectedRange}
+          selectedSite={selectedSite}
+          dataMonthly={dataMonthly}
+        />
       </MainCard>
     </div>
   );
