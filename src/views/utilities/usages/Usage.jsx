@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Menu, MenuItem, Grid } from '@mui/material';
 import { DatePicker, Space, Select, Dropdown } from 'antd';
-import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import axiosNew from '../../../api/axiosNew';
 import { pdf, Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer';
 import { Image as PDFImage } from '@react-pdf/renderer';
 import html2canvas from 'html2canvas';
-import ApexCharts from 'apexcharts';
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
@@ -21,6 +19,11 @@ import ReactApexChart from 'react-apexcharts';
 import XLSX from 'xlsx';
 import { useTheme } from '@mui/material/styles';
 import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+// Register the UTC plugin
+dayjs.extend(utc);
 
 const Sites = () => {
   const [selectedSite, setSelectedSite] = useState('');
@@ -83,60 +86,60 @@ const Sites = () => {
     }
   }, [selectedSite]);
 
-  const handleSearchOnLoad = async () => {
-    const requestData = {
-      start_data: '2025/08/01',
-      end_data: '2025/09/01',
-      site_id: 'TCF-11083'
-    };
+  // const handleSearchOnLoad = async () => {
+  //   const requestData = {
+  //     start_data: '2025/08/01',
+  //     end_data: '2025/09/01',
+  //     site_id: 'TCF-11083'
+  //   };
 
-    // console.log(requestData);
+  //   // console.log(requestData);
 
-    try {
-      const response = await axiosNew.post('/monthly', requestData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+  //   try {
+  //     const response = await axiosNew.post('/monthly', requestData, {
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
 
-      const responseData = response.data;
-      // console.log(response);
-      // setTableData(responseData.data);
+  //     const responseData = response.data;
+  //     // console.log(response);
+  //     // setTableData(responseData.data);
 
-      // Update dataTraffic
-      const trafficData = responseData.data.find((item) => item.name === 'BW usage per GB');
-      const updatedDataTraffic = trafficData.data.map((item) => ({
-        month: item.month,
-        data: item.data
-        // totalDevices: item.totalDevices
-      }));
+  //     // Update dataTraffic
+  //     const trafficData = responseData.data.find((item) => item.name === 'BW Usage Daily per GB');
+  //     const updatedDataTraffic = trafficData.data.map((item) => ({
+  //       month: item.month,
+  //       data: item.data
+  //       // totalDevices: item.totalDevices
+  //     }));
 
-      // Update dataDevice
-      const deviceData = responseData.data.find((item) => item.name === 'device');
-      const updatedDataDevice = deviceData.data.map((item) => ({
-        month: item.month,
-        data: item.data
-        // totalDevices: item.totalDevices
-      }));
+  //     // Update dataDevice
+  //     const deviceData = responseData.data.find((item) => item.name === 'device');
+  //     const updatedDataDevice = deviceData.data.map((item) => ({
+  //       month: item.month,
+  //       data: item.data
+  //       // totalDevices: item.totalDevices
+  //     }));
 
-      setDataTraffic(updatedDataTraffic);
-      setDataDevice(updatedDataDevice);
-      // console.log(updatedDataTraffic);
-      // console.log(updatedDataDevice);
+  //     setDataTraffic(updatedDataTraffic);
+  //     setDataDevice(updatedDataDevice);
+  //     // console.log(updatedDataTraffic);
+  //     // console.log(updatedDataDevice);
 
-      // Update site name and public IP based on selected site
-      const selectedOption = sites.find((site) => site.value === selectedSite);
-      if (selectedOption) {
-        setSiteName(selectedOption.label);
-        setSitePublicIP(selectedOption.publicIP);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     // Update site name and public IP based on selected site
+  //     const selectedOption = sites.find((site) => site.value === selectedSite);
+  //     if (selectedOption) {
+  //       setSiteName(selectedOption.label);
+  //       setSitePublicIP(selectedOption.publicIP);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
-    handleSearchOnLoad();
+    // handleSearchOnLoad(); // disable auto search on load biar tidak terllau banyak hit api
   }, []);
 
   const handleLoading = () => {
@@ -192,8 +195,6 @@ const Sites = () => {
     }
   ];
 
-  const chartRef = useRef(null);
-
   const downloadCSV = async () => {
     const startData = selectedRange[0];
     const endData = selectedRange[1];
@@ -213,13 +214,13 @@ const Sites = () => {
 
       const responseData = response.data;
 
-      const trafficData = responseData.data.find((item) => item.name === 'BW usage per GB');
+      const trafficData = responseData.data.find((item) => item.name === 'BW Usage Daily per GB');
       const deviceData = responseData.data.find((item) => item.name === 'device');
 
       const updatedDataTraffic = trafficData.data.map((item, index) => ({
         No: index + 1,
         Months: item.month,
-        'BW Usages': item.data >= 1000 ? `${(item.data / 1000).toFixed(2)} TB` : `${item.data} GB`,
+        'BW Usage Dailys': item.data >= 1000 ? `${(item.data / 1000).toFixed(2)} TB` : `${item.data} GB`,
         'Device Connected': `${deviceData.data[index]?.data || 'N/A'} Device`
       }));
 
@@ -228,8 +229,8 @@ const Sites = () => {
         ['IP Publik:', sitePublicIP],
         ['Tanggal:', new Date().toLocaleDateString()],
         [], // Empty row for spacing
-        ['No', 'Months', 'BW Usages', 'Device Connected'],
-        ...updatedDataTraffic.map((row) => [row.No, row.Months, row['BW Usages'], row['Device Connected']])
+        ['No', 'Months', 'BW Usage Dailys', 'Device Connected'],
+        ...updatedDataTraffic.map((row) => [row.No, row.Months, row['BW Usage Dailys'], row['Device Connected']])
       ].map((row) => row.join(','));
 
       const csvData = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvContent.join('\n'));
@@ -269,13 +270,13 @@ const Sites = () => {
 
       const responseData = response.data;
 
-      const trafficData = responseData.data.find((item) => item.name === 'BW usage per GB');
+      const trafficData = responseData.data.find((item) => item.name === 'BW Usage Daily per GB');
       const deviceData = responseData.data.find((item) => item.name === 'device');
 
       const updatedDataTraffic = trafficData.data.map((item, index) => ({
         No: index + 1,
         Months: item.month,
-        'BW Usages': item.data >= 1000 ? `${(item.data / 1000).toFixed(2)} TB` : `${item.data} GB`,
+        'BW Usage Dailys': item.data >= 1000 ? `${(item.data / 1000).toFixed(2)} TB` : `${item.data} GB`,
         'Device Connected': `${deviceData.data[index]?.data || 'N/A'} Device`
       }));
 
@@ -358,7 +359,7 @@ const Sites = () => {
       // console.log(responseStatus);
 
       // Update dataTraffic
-      const trafficData = responseData.data.find((item) => item.name === 'BW usage per GB');
+      const trafficData = responseData.data.find((item) => item.name === 'BW Usage Daily per GB');
       const updatedDataTraffic = trafficData.data.map((item) => ({
         month: item.month,
         data: item.data
@@ -371,7 +372,7 @@ const Sites = () => {
       const worksheet = XLSX.utils.json_to_sheet(updatedDataTraffic);
 
       // Menambahkan worksheet ke workbook
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'BW Usage');
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'BW Usage Daily');
 
       // Mengubah workbook menjadi file Excel
       const excelBuffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
@@ -561,7 +562,7 @@ const Sites = () => {
 
       const responseData = response.data;
 
-      const trafficData = responseData.data.find((item) => item.name === 'BW usage per GB');
+      const trafficData = responseData.data.find((item) => item.name === 'BW Usage Daily per GB');
       const deviceData = responseData.data.find((item) => item.name === 'device');
 
       const updatedDataTraffic = trafficData.data.map((item, index) => ({
@@ -573,7 +574,7 @@ const Sites = () => {
       const tableData = [
         [
           { text: 'Months', style: 'tableHeader', width: '33.33%' },
-          { text: 'BW Usages', style: 'tableHeader', width: '33.33%' },
+          { text: 'BW Usage Dailys', style: 'tableHeader', width: '33.33%' },
           { text: 'Devices', style: 'tableHeader', width: '33.33%' }
         ]
       ];
@@ -729,7 +730,7 @@ const Sites = () => {
 
   const onSearch = async () => {
     const startData = selectedRange[0];
-    const endData = selectedRange[1];
+    const endData = selectedRange[0];
 
     const requestData = {
       start_data: startData,
@@ -737,7 +738,7 @@ const Sites = () => {
       site_id: selectedSite
     };
 
-    // console.log(requestData);
+    console.log(requestData);
 
     try {
       const response = await axiosNew.post('/monthly', requestData, {
@@ -751,7 +752,7 @@ const Sites = () => {
       // setTableData(responseData.data);
 
       // Update dataTraffic
-      const trafficData = responseData.data.find((item) => item.name === 'BW usage per GB');
+      const trafficData = responseData.data.find((item) => item.name === 'BW Usage Daily per GB');
       const updatedDataTraffic = trafficData.data.map((item) => ({
         month: item.month,
         data: item.data
@@ -810,81 +811,98 @@ const Sites = () => {
     fetchData();
   }, []);
 
+  const [chartOptions, setChartOptions] = useState({
+    series: [
+      {
+        name: 'BW Usage Daily',
+        data: dataTraffic.map((item) => ({
+          x: dayjs(item.month, 'YYYY/MM/DD').startOf('day').valueOf(),
+          y: item.data
+        }))
+      },
+      {
+        name: 'Device',
+        data: dataDevice.map((item) => ({
+          x: dayjs(item.month, 'YYYY/MM/DD').startOf('day').valueOf(),
+          y: item.data
+        }))
+      }
+    ],
+    chart: {
+      height: 350,
+      type: 'area'
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    xaxis: {
+      type: 'datetime',
+      tickPlacement: 'on',
+      labels: {
+        datetimeUTC: true,
+        format: 'dd/MM/yyyy'
+      }
+    },
+    yaxis: {
+      forceNiceScale: true,
+      labels: {
+        formatter: function (value) {
+          return parseInt(value);
+        }
+      }
+    },
+    tooltip: {
+      x: {
+        format: 'dd/MM/yyyy'
+      },
+      shared: true,
+      y: {
+        formatter: function (value, { seriesIndex }) {
+          if (seriesIndex === 0) {
+            if (value >= 1000) {
+              return `${(value / 1000).toFixed(2)} TB`;
+            } else {
+              return `${value} GB`;
+            }
+          } else {
+            return `${value} Device`;
+          }
+        }
+      }
+    }
+  });
+
   useEffect(() => {
-    const options = {
+    // Update chart options when data changes
+    setChartOptions((prevOptions) => ({
+      ...prevOptions,
       series: [
         {
-          name: 'BW Usage',
+          name: 'BW Usage Daily',
           data: dataTraffic.map((item) => ({
-            x: dayjs(item.month, 'YYYY/MM/DD').valueOf(),
+            x: dayjs(item.month, 'YYYY/MM/DD').startOf('day').valueOf(),
             y: item.data
           }))
         },
         {
           name: 'Device',
           data: dataDevice.map((item) => ({
-            x: dayjs(item.month, 'YYYY/MM/DD').valueOf(),
+            x: dayjs(item.month, 'YYYY/MM/DD').startOf('day').valueOf(),
             y: item.data
           }))
         }
-      ],
-      chart: {
-        height: 350,
-        type: 'area'
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'smooth'
-      },
-      xaxis: {
-        type: 'datetime',
-        tickPlacement: 'on'
-      },
-      yaxis: {
-        forceNiceScale: true,
-        labels: {
-          formatter: function (value) {
-            return parseInt(value);
-          }
-        }
-      },
-      tooltip: {
-        x: {
-          format: 'dd/MM/yyyy'
-        },
-        y: {
-          formatter: function (value, { seriesIndex }) {
-            if (seriesIndex === 0) {
-              if (value >= 1000) {
-                return `${(value / 1000).toFixed(2)} TB`;
-              } else {
-                return `${value} GB`;
-              }
-            } else {
-              return `${value} Device`;
-            }
-          }
-        }
-      }
-    };
-
-    const chart = new ApexCharts(document.querySelector('#chart'), options);
-    chart.render();
-    chartRef.current = chart;
-
-    // Cleanup chart on unmount
-    return () => {
-      chart.destroy();
-    };
+      ]
+    }));
   }, [dataTraffic, dataDevice]);
 
   // Area Line Chart options
   const areaLineOptions = {
     series: [
       {
-        name: 'BW Usage',
+        name: 'BW Usage Daily',
         data: dataTraffic.map((item) => ({
           x: dayjs(item.month, 'YYYY/MM/DD').valueOf(),
           y: item.data
@@ -1026,17 +1044,17 @@ const Sites = () => {
           <Grid item xs={12} id="chartContainer">
             <SubCard>
               <div className="cardHeader">
-                <h3>BW Usage & Devices Connected</h3>
+                <h3>BW Usage Daily & Devices Connected</h3>
               </div>
               <div id="chart">
-                <ReactApexChart options={areaLineOptions} series={areaLineOptions.series} type="area" height={350} />
+                <ReactApexChart options={chartOptions} series={chartOptions.series} type="area" height={350} />
               </div>
             </SubCard>
           </Grid>
           <Grid item xs={12} id="bwContainer">
             <SubCard>
               <div className="cardHeader">
-                <h3>BW Usage</h3>
+                <h3>BW Usage Daily</h3>
                 <div className="btnMenu">
                   <Avatar
                     variant="rounded"
@@ -1082,7 +1100,7 @@ const Sites = () => {
                   </Menu>
                 </div>
               </div>
-              <div id="chart">
+              <div id="chart-traffic">
                 <ReactApexChart options={areaLineOptions} series={areaLineOptions.series} type="area" height={350} />
               </div>
             </SubCard>

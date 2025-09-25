@@ -67,7 +67,7 @@ const DataDeviceSection = ({ dataTraffic, dataDevice, dataMonthly }) => {
   const [chartOptions, setChartOptions] = useState({
     series: [
       {
-        name: 'BW Usage',
+        name: 'BW Usage Daily',
         data: generateDailyData(dataTraffic)
       },
       {
@@ -100,7 +100,7 @@ const DataDeviceSection = ({ dataTraffic, dataDevice, dataMonthly }) => {
     yaxis: [
       {
         title: {
-          text: 'BW Usage (GB/TB)'
+          text: 'BW Usage Daily (GB/TB)'
         },
         forceNiceScale: true,
         labels: {
@@ -151,7 +151,7 @@ const DataDeviceSection = ({ dataTraffic, dataDevice, dataMonthly }) => {
       ...prevOptions,
       series: [
         {
-          name: 'BW Usage',
+          name: 'BW Usage Daily',
           data: generateDailyData(dataTraffic)
         },
         {
@@ -164,7 +164,7 @@ const DataDeviceSection = ({ dataTraffic, dataDevice, dataMonthly }) => {
 
   return (
     <Grid item xs={12}>
-      <SubCard title="BW Usage & Devices Connected">
+      <SubCard title="BW Usage Daily & Devices Connected">
         <ReactApexChart options={chartOptions} series={chartOptions.series} type="area" height={350} />
 
         {/* Summary Statistics */}

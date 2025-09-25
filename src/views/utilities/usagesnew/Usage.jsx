@@ -665,7 +665,7 @@ const SitesDev = () => {
       <MainCard>
         <Grid item xs={12} className="gridButton">
           <div className="containerHeadSites">
-            <h2>JakWifi Usage</h2>
+            <h2>JakWifi Usage Daily</h2>
           </div>
         </Grid>
         <div className="dateContainer">

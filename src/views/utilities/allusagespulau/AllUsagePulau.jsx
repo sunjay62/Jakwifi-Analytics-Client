@@ -60,7 +60,7 @@ const AllUsagePulau = () => {
         [
           { text: 'No', style: { fontSize: 16 } },
           { text: 'Nama Site', style: { fontSize: 16 } },
-          { text: 'BW Usage', style: { fontSize: 16 } },
+          { text: 'BW Usage Monthly', style: { fontSize: 16 } },
           { text: 'Devices', style: { fontSize: 16 } }
         ]
       ];
@@ -248,7 +248,7 @@ const AllUsagePulau = () => {
         // Empty row for spacing
         [],
         // Header row for the table
-        ['No', 'Nama Site', 'BW Usage', 'Devices'],
+        ['No', 'Nama Site', 'BW Usage Monthly', 'Devices'],
         // Table data rows
         ...responseData.map((item, index) => [(index + 1).toString(), item.site, item.bandwidth, item.device])
       ];
@@ -325,7 +325,7 @@ const AllUsagePulau = () => {
         ['', `Report : ${selectedMonthYear}`],
         ['', `Download : ${dayjs().format('DD MMMM YYYY')}`],
         [],
-        ['No', 'Nama Site', 'BW Usage', 'Devices'],
+        ['No', 'Nama Site', 'BW Usage Monthly', 'Devices'],
         ...responseData.map((item, index) => [(index + 1).toString(), item.site, item.bandwidth, item.device])
       ]
         .map((row) => row.join(',')) // Convert each row to a comma-separated string
@@ -512,7 +512,7 @@ const AllUsagePulau = () => {
       width: 70
     },
     { field: 'site', headerName: 'Name Site', flex: 3 },
-    { field: 'bandwidth', headerName: 'BW Usage', flex: 1 },
+    { field: 'bandwidth', headerName: 'BW Usage Monthly', flex: 1 },
     { field: 'device', headerName: 'Device Connected', flex: 1 }
   ];
 

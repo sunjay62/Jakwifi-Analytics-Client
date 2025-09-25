@@ -124,7 +124,7 @@ const DataSection = ({ dataTraffic, siteName, selectedRange, selectedSite, dataM
 
       const workbook = XLSX.utils.book_new();
       const worksheet = XLSX.utils.json_to_sheet(updatedDataTraffic);
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'BW Usage');
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'BW Usage Daily');
       const excelBuffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
       const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = URL.createObjectURL(blob);
@@ -171,7 +171,7 @@ const DataSection = ({ dataTraffic, siteName, selectedRange, selectedSite, dataM
   const areaLineOptions = {
     series: [
       {
-        name: 'BW Usage',
+        name: 'BW Usage Daily',
         data: generateDailyData(dataTraffic)
       }
     ],
@@ -199,7 +199,7 @@ const DataSection = ({ dataTraffic, siteName, selectedRange, selectedSite, dataM
     },
     yaxis: {
       title: {
-        text: 'Bandwidth Usage'
+        text: 'Bandwidth Usage Daily'
       },
       forceNiceScale: true,
       labels: {
@@ -246,7 +246,7 @@ const DataSection = ({ dataTraffic, siteName, selectedRange, selectedSite, dataM
         <Grid item xs={12} id="bwContainer">
           <SubCard>
             <div className="cardHeader">
-              <h3>BW Usage</h3>
+              <h3>BW Usage Daily</h3>
               <div className="btnMenu">
                 <Avatar
                   variant="rounded"
